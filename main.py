@@ -49,8 +49,8 @@ def parsePage(url, className):
 def search(News, url):
 	time.sleep(random.randint(20, 30))
 	proxy = {
-		'http': f'http://{PROXY[random.randint(0, 5)]}',
-		'https': f'https://{PROXY[random.randint(0, 5)]}'
+		'http': 'http://' + PROXY[random.randint(0, 5)],
+		'https': 'https://' + PROXY[random.randint(0, 5)]
 	}
 	response = requests.get(url, headers=HEADERS, proxies=proxy)
 	try:
