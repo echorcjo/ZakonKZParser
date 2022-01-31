@@ -1,6 +1,7 @@
 import random
 import requests
 import time
+import lxml
 from bs4 import BeautifulSoup
 from datetime import date
 
