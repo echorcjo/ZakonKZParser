@@ -22,7 +22,7 @@ PROXY = [
 
 # parsing content, info
 def parsePage(url, className):
-	time.sleep(random.randint(20, 30))
+	time.sleep(random.randint(3, 5))
 	response = requests.get(url, headers=HEADERS, proxies=PROXY[random.randint(0, 5)])
 	try:
 		soup = BeautifulSoup(response.content, 'lxml').find(class_=className)
@@ -47,7 +47,7 @@ def parsePage(url, className):
 
 # searching needed news
 def search(News, url):
-	time.sleep(random.randint(20, 30))
+	time.sleep(random.randint(3, 5))
 	proxy = {
 		'http': 'http://' + PROXY[random.randint(0, 5)],
 		'https': 'https://' + PROXY[random.randint(0, 5)]
@@ -91,7 +91,7 @@ if __name__ == '__main__':
 	# 1. Если АДМИНЫ поменяют какой-то тег/класс в коде HTML
 	# 2. Если они будут блокировать IP который будет отправлять много запросов
 	# 3. Если сайт начнет блокировать частые запросы на сервер из одного IP
-	# Чтобы решить проблему под номером 3 я отправляю запросы каждые 20-30 секунд
+	# Чтобы решить проблему под номером 3 я отправляю запросы каждые 3-5 секунд
 	# почему рандомное число?
 	# потому что думал если бот который будет искать последовательность запросов
 	# и она найдет что мой парсер отправляет запросы в фиксированной период времени
