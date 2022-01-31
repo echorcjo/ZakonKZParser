@@ -1,10 +1,8 @@
 import random
-import requests
-import time
-import lxml
-from bs4 import BeautifulSoup
 from datetime import date
 
+import requests
+from bs4 import BeautifulSoup
 
 # consts
 HEADERS = {
@@ -12,18 +10,25 @@ HEADERS = {
 }
 TODAY = date.today()
 PROXY = [
-	'222.167.234.172:1000',
-	'201.92.247.3:1000',
-	'76.119.53.226:6391',
-	'67.82.164.145:26677',
-	'90.30.133.60:21011'
+	'167.71.9.113:3785',
 ]
 
 
 # parsing content, info
 def parsePage(url, className):
-	time.sleep(random.randint(3, 5))
-	response = requests.get(url, headers=HEADERS, proxies=PROXY[random.randint(0, 5)])
+	ith = random.randint(0, 0)
+	proxy = {
+		'http': 'http://' + PROXY[ith],
+		'https': 'https://' + PROXY[ith]
+	}
+	response = requests.get(url, headers=HEADERS)
+	# proxies=proxy
+	# хотел добавить и это но она перестала работать
+	# ERROR MESSAGE
+	# requests.exceptions.ProxyError: z'
+	# Max retries exceeded with url: /api/all-news-ajax/?pn=1&pSize=24
+	# (Caused by ProxyError('Cannot connect to proxy.', NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x1035ae130>:
+	# Failed to establish a new connection: [Errno 61] Connection refused')))
 	try:
 		soup = BeautifulSoup(response.content, 'lxml').find(class_=className)
 		try:
@@ -47,12 +52,19 @@ def parsePage(url, className):
 
 # searching needed news
 def search(News, url):
-	time.sleep(random.randint(3, 5))
+	ith = random.randint(0, 0)
 	proxy = {
-		'http': 'http://' + PROXY[random.randint(0, 4)],
-		'https': 'https://' + PROXY[random.randint(0, 4)]
+		'http': 'http://' + PROXY[ith],
+		'https': 'https://' + PROXY[ith]
 	}
-	response = requests.get(url, headers=HEADERS, proxies=proxy)
+	response = requests.get(url, headers=HEADERS)
+	# proxies=proxy
+	# хотел добавить и это но она перестала работать
+	# ERROR MESSAGE
+	# requests.exceptions.ProxyError: z'
+	# Max retries exceeded with url: /api/all-news-ajax/?pn=1&pSize=24
+	# (Caused by ProxyError('Cannot connect to proxy.', NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x1035ae130>:
+	# Failed to establish a new connection: [Errno 61] Connection refused')))
 	try:
 		# данные которые передаются через API я сохранил в формате JSON
 		# в этих же данных хранится дата и ссылка нашего новостя, то что нам нужно
@@ -91,8 +103,12 @@ if __name__ == '__main__':
 	# 1. Если АДМИНЫ поменяют какой-то тег/класс в коде HTML
 	# 2. Если они будут блокировать IP который будет отправлять много запросов
 	# 3. Если сайт начнет блокировать частые запросы на сервер из одного IP
+	# 
 	# Чтобы решить проблему под номером 3 я отправляю запросы каждые 3-5 секунд
 	# почему рандомное число?
 	# потому что думал если бот который будет искать последовательность запросов
 	# и она найдет что мой парсер отправляет запросы в фиксированной период времени
 	# Чтобы решить проблему под номером 2 я собрал IP в каком-то файле и передавал это IP в requests
+	# 
+	# Чтобы ускорить работу хотел сделать парсер асинхронным и с заменяющим прокси
+	# но из-за недостачног опыта и времени не смог исправить ошибки
