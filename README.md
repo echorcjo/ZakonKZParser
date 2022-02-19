@@ -1,3 +1,9 @@
-# zakon.kz parser
+# kazdream-test
+
+https://zakon.kz/
+
 The parser was written to pass a test task for the KazDream company
-Parser that collects the news of the current day
+
+Task: 
+  * Write a parser 
+  * Website can block some proxies, prevent this
